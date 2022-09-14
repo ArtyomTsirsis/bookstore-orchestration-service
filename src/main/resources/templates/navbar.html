@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg bg-light sticky-top" xmlns:th="http://www.w3.org/1999/xhtml">
+  <div class="container-fluid">
+    <a class="navbar-brand mb-0 h1" href="/bookstore/">Book Store</a>
+    <div class="mx-auto" style="width: 20px;"></div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/bookstore/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/bookstore/book/all">All Books</a>
+        </li>
+        <li class="nav-item">
+          <a th:class="${status.toString() == 'ADMIN'} ? 'nav-link' : 'nav-link disabled'" href="/bookstore/book/add">Add new Book</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="login" th:action="@{/bookstore/user/login}" th:object="${request}" method="post" th:if="${status.toString=='UNAUTHORISED'}">
+        <input class="form-control me-2" type="text" th:field="*{login}" placeholder="Login" aria-label="login" required>
+        <input class="form-control me-2" type="password" th:field="*{password}" placeholder="Password" aria-label="password" required>
+        <button class="btn btn-outline-primary" type="submit">SignIn</button>
+      </form>
+      <div class="dropdown" th:if="${status.toString!='UNAUTHORISED'}">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="https://img.icons8.com/dusk/100/000000/user-female-circle.png" width="20" height="20" alt="" class="user-avatar-md rounded-circle">
+        </button>
+        <div class="dropdown-menu dropdown-menu-end">
+          <span><a class="dropdown-item" th:text="(${status.toString() == 'ADMIN'} ? 'Admin' : 'User')  + ' ' + ${user}"></a></span>
+        <form class="dropdown-item" role="logout" th:action="@{/bookstore/user/logout}" method="post">
+          <button class="btn btn-outline-danger" type="submit">SignOut</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
